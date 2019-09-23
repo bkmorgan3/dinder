@@ -51,12 +51,12 @@ class App extends Component {
   moveNext() {
     this.setState({ currentIndex: this.state.currentIndex + 1 });
     console.log("moveNext is clicked");
-    if (this.state.currentIndex - 1 === this.state.businessList.length - 2) {
+    if (this.state.currentIndex === this.state.businessList.length - 1) {
       axios
         .get(
           `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${
             locationSearched
-          }&limit=20&offset=${this.state.currentIndex}`,
+          }&limit=50&offset=${this.state.currentIndex}`,
           {
             headers: {
               Authorization: `Bearer ${key.API_KEY}`

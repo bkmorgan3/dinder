@@ -5,21 +5,19 @@ const pool = new Pool({
 	connectionString: url
 });
 
-const verifyUser =
-	(req,
-	res,
-	next => {
-		let arr = [req.body.user];
-		let queryforPass = `SELECT "password" FROM "Users" WHERE user = $1`;
-		pool.query(queryforPass, arr, (err, result) => {
-			if (err) console.log("no result for user found");
-			console.log(result);
-			if (result === req.body.password) {
-				return next();
-			}
-			return res.send("Not Verified");
-		});
+const verifyUser = (req, res, next) => {
+	let arr = [req.body.user];
+	let queryforPass = `SELECT "password" FROM "Users" WHERE "user" = $1`;
+	pool.query(queryforPass, arr, (err, result) => {
+		if (err) console.log("no result for user found");
+		// console.log(result.rows[0].password);
+		if (result.rows[0].password === req.body.pass) {
+			// console.log("pass");
+			return next();
+		}
+		return res.send("Not Verified");
 	});
+};
 
 const createUser = (req, res, next) => {
 	let arr = [req.body.user, req.body.password];

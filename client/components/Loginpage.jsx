@@ -1,25 +1,18 @@
 import React, { Component } from "react";
 
-const Login = ({ User, Password, verification }) => {
+const Login = ({ verification }) => {
 	return (
 		<div id="login">
 			Login
-			<div id="wrapUser">
+			<form onSubmit={verification}>
 				User:
-				<input type="text" name="user" id="user" onChange={User}></input>
-			</div>
-			<div>
+				<input type="text" name="username" id="user"></input>
 				Password:
-				<input
-					type="text"
-					name="password"
-					id="password"
-					onChange={Password}
-				></input>
-			</div>
-			<button name=" button" id="button" onClick={verification}>
-				Login
-			</button>
+				<input type="text" name="password" id="password"></input>
+				<button name=" button" id="button" type="submit">
+					Login
+				</button>
+			</form>
 		</div>
 	);
 };

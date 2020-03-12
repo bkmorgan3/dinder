@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar.jsx';
 import MainContainer from './MainContainer.jsx';
 import axios from 'axios';
-import key from '../../config/keys';
+import key from '../config/keys';
 
 const locationSearched = '1600 Main St 1st floor, Venice, CA 90291';
 

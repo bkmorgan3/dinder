@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import key from '../../config/keys';
+import React, {Component} from 'react';
 
 class MainContainer extends Component {
   constructor(props) {

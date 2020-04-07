@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Sidebar from './Sidebar.jsx';
 import MainContainer from './MainContainer.jsx';
 import axios from 'axios';
 import key from '../../config/keys';
@@ -39,13 +38,15 @@ class App extends Component {
   // function invokes when the show Favs button is clicked in Sidebar
   //login functions
   verify(e) {
+    console.log("verifiying")
     e.preventDefault();
     const user = e.target.username.value;
     const pass = e.target.password.value;
 
     axios
-      .post('/login', { user: user, pass: pass })
+      .post('/login', { user, pass })
       .then(res => {
+        console.log("resonse is", res)
         if (res.data === 'verified') {
           this.setState({ verified: true, currentUser: user, rerender: true });
         }
@@ -144,6 +145,7 @@ class App extends Component {
             headers: {
               Authorization: `Bearer ${key.API_KEY}`
             },
+
             params: {
               categories: 'restaurants, All',
               limit: 50

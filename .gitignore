@@ -17,3 +17,6 @@ dist/
 
 # jest coverage
 coverage/
+
+# Yelp API Key
+config/

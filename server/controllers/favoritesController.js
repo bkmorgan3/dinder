@@ -6,22 +6,44 @@ const pool = new Pool({
 
 // get favorites
 const getFavorites = (req, res, next) => {
-  pool.query('SELECT * FROM favorites ORDER BY _id', (error, favorites) => {
-    if (error) {
-      res.json(error);
+  arr = [req.body.user];
+  pool.query(
+    `SELECT * FROM favorites WHERE "user" = $1 ORDER BY _id`,
+    arr,
+    (error, favorites) => {
+      if (error) {
+        res.json(error);
+      }
+      res.locals.favorites = favorites.rows;
+      return next();
     }
-    res.locals.favorites = favorites.rows;
-    return next();
-  });
+  );
 };
 
 // add favorite
 const addFavorite = (req, res, next) => {
-  const { name, address, imageURL, id, yelpURL } = req.body;
+  const { name, address, imgurl, yelpid, yelpurl } = req.body.business;
+  const user = req.body.user;
 
   pool.query(
-    'INSERT INTO favorites (name, address, imgurl, yelpid, yelpurl) VALUES ($1, $2, $3, $4, $5)',
-    [name, address, imageURL, id, yelpURL],
+    `INSERT INTO favorites (name, address, imgurl, yelpid, yelpurl, "user") VALUES ($1, $2, $3, $4, $5, $6)`,
+    [name, address, imgurl, yelpid, yelpurl, user],
+    error => {
+      if (error) {
+        res.json(error);
+      } else {
+        return next();
+      }
+    }
+  );
+};
+
+// delete favorite
+const deleteFavorite = (req, res, next) => {
+  const { currentUser, yelpid } = req.body;
+  pool.query(
+    `DELETE FROM favorites WHERE "user" = $1 AND yelpid = $2`,
+    [currentUser, yelpid],
     error => {
       if (error) {
         res.json(error);
@@ -34,5 +56,6 @@ const addFavorite = (req, res, next) => {
 
 module.exports = {
   getFavorites,
-  addFavorite
+  addFavorite,
+  deleteFavorite
 };

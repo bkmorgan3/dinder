@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const isValidInfo = require("../middleware/isValid")
+const authorization = require("../middleware/auth")
 require("dotenv").config();
 
 // 401 - unauthenticated, 403 - unauthorized
@@ -69,6 +70,15 @@ router.post("/login", isValidInfo, async (req, res) => {
   } catch (error) {
     console.error(error)
     return res.status(500).json("Server Error.")
+  }
+});
+
+router.get("/verify", authorization, async (req, res) => {
+  try {
+    res.json(true)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send("Server Error.")
   }
 })
 

@@ -3,10 +3,11 @@ const pool = require("../database");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const isValidInfo = require("../middleware/isValid")
 require("dotenv").config();
 
 // 401 - unauthenticated, 403 - unauthorized
-router.post("/signup", async (req, res) => {
+router.post("/signup", isValidInfo, async (req, res) => {
   // Destructure req.body
   const { email, username, password } = req.body;
   try {
@@ -42,7 +43,7 @@ router.post("/signup", async (req, res) => {
   }
 })
 
-router.post("/login", async (req, res) => {
+router.post("/login", isValidInfo, async (req, res) => {
   // destructure body
   const { username, password } = req.body;
   try {

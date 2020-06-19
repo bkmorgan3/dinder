@@ -10,9 +10,10 @@ module.exports = {
   },
   mode: process.env.NODE_ENV,
   devServer: {
+    historyApiFallback: true,
     publicPath: '/build/',
     proxy: {
-      context: ['/favorites', '/login', '/assets'],
+      context: ['/favorites', '/api/auth', '/assets', '/api/'],
       target: 'http://localhost:3000'
     }
   },

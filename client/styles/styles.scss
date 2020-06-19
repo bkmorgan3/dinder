@@ -329,6 +329,11 @@ button,
   }
 }
 
+.nav-buttons {
+  display:flex;
+  justify-content: space-evenly;
+}
+
 // dance
 .dance .modal {
   animation: dance 0.8s infinite alternate ease-in-out;

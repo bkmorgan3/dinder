@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config()
+require("dotenv").config();
 
 module.exports = async (req, res, next) => {
   try {
@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     const token = req.header("token")
     // confirm token
     if (!token) {
-      return res.status(403).json("Not Authorized");
+      return res.status(403).json("Not Authorized Without Proper Login.");
     }
 
     const verified = await jwt.verify(token, process.env.SECRET)

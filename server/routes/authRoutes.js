@@ -47,6 +47,7 @@ router.post("/signup", isValidInfo, async (req, res) => {
 router.post("/login", isValidInfo, async (req, res) => {
   // destructure body
   const { username, password } = req.body;
+  console.log("email,", password, username)
   try {
     // Check if user doesnt exits in db
     const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
@@ -64,9 +65,9 @@ router.post("/login", isValidInfo, async (req, res) => {
       id: user.rows[0].user_id,
       username: user.rows[0].username,
       email: user.rows[0].email
-    }, process.env.SECRET
+    }, process.env.SECRET, { expiresIn: '1h' }
     )
-    return res.status(200).json({ token })
+    return res.status(200).json({ token, username })
   } catch (error) {
     console.error(error)
     return res.status(500).json("Server Error.")
@@ -78,7 +79,7 @@ router.get("/verify", authorization, async (req, res) => {
     res.json(true)
   } catch (error) {
     console.error(error)
-    return res.status(500).send("Server Error.")
+    return res.status(500).json("Server Error.")
   }
 })
 

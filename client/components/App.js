@@ -308,7 +308,6 @@ class App extends Component {
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;
-    console.log("STUFF", username, password)
 
     axios
       .post('/api/auth/login', { username, password })
@@ -400,7 +399,7 @@ class App extends Component {
               path="/homepage"
               render={props =>
                 verified ? (
-                  <Homepage {...props} />
+                  <MainContainer {...props} />
                 ) : (
                     <Redirect to="/login" />
                   )}

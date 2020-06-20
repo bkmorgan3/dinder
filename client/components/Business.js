@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 
 const Business = props => {
   console.log("props", props)
+  const { addFav } = props;
 
   return (
-    // <h1>Hi</h1>
     <div>
       <main>
         <div className='modal'>
           <img
             className='img-main'
             src={props.imageURL}
-          // onClick={props.showMoreDetail}
+            onClick={props.showMoreDetail}
           />
           <div className='button-group'>
             <button
               className='fav'
               onClick={() => {
-                // addFav();
+                addFav();
               }}
             >
               <i className='fa fa-heart'></i>
@@ -25,7 +25,7 @@ const Business = props => {
             <button
               className='next'
               onClick={() => {
-                // moveNext();
+                moveNext();
               }}
             >
               <i className='fa fa-times'></i>

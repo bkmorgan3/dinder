@@ -14,11 +14,14 @@ class MainContainer extends Component {
       businessList: [],
       locationSearched: 'LA',
       isLoading: true,
-      error: ''
+      error: '',
+      currentIndex: 0,
+      favs: [],
     }
 
     // bind functions
-    // this.showMoreDetail = this.showMoreDetail.bind(this);
+    this.showMoreDetail = this.showMoreDetail.bind(this);
+    this.addFav = this.addFav.bind(this);
   }
 
   componentDidMount() {
@@ -61,6 +64,25 @@ class MainContainer extends Component {
         this.setState({ error: err })
       });
 
+  }
+
+  addFav() {
+    console.log("clicked fav")
+    let favs = this.state.favs.slice();
+    favs.push(this.state.businessList[this.state.currentIndex])
+
+    this.setState({
+      currentIndex: this.state.currentIndex + 1,
+      favs
+    })
+
+    console.log('this.state.businessList[this.state.currentIndex]: ', this.state.businessList[this.state.currentIndex]);
+
+    axios.post('/favorites', this.state.businessList[this.state.currentIndex])
+      .then(res => {
+        console.log("FAV RES", res);
+      })
+      .catch(err => console.error(err));
   }
 
   // initializing the initial state
@@ -113,9 +135,8 @@ class MainContainer extends Component {
   // }
 
   render() {
-
     // destructuring props
-    const { businessList, isLoading } = this.state;
+    const { businessList, isLoading, currentIndex } = this.state;
     const { addFav, moveNext } = this.props;
 
     // when the image is clicked show details
@@ -219,7 +240,13 @@ class MainContainer extends Component {
       return <div>Loading</div>
     } else {
 
-      return <BusinessList showMoreDetail={this.showMoreDetail} businessList={businessList} />
+      return (<BusinessList
+        showMoreDetail={this.showMoreDetail}
+        oneBusiness={businessList[currentIndex]}
+        businessList={businessList}
+        addFav={this.addFav}
+      />
+      )
     }
   }
 }

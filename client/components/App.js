@@ -299,7 +299,6 @@ class App extends Component {
     };
 
     this.showFavs = this.showFavs.bind(this);
-    this.addFav = this.addFav.bind(this);
     this.moveNext = this.moveNext.bind(this);
     this.verify = this.verify.bind(this)
   }
@@ -320,6 +319,7 @@ class App extends Component {
       })
       .catch(err => console.error(err));
   }
+  // SIGN UP ROUTE NEEDED!!!!!
 
   submit(e) {
     e.preventDefault();
@@ -329,23 +329,7 @@ class App extends Component {
     console.log('showFavs is clicked');
   }
 
-  addFav() {
-    let favs = this.state.favs.slice();
-    favs.push(this.state.businessList[this.state.currentIndex])
 
-    this.setState({
-      currentIndex: this.state.currentIndex + 1,
-      favs
-    })
-
-    console.log('this.state.businessList[this.state.currentIndex]: ', this.state.businessList[this.state.currentIndex]);
-
-    axios.post('/favorites', this.state.businessList[this.state.currentIndex])
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => console.error);
-  }
 
   moveNext() {
     this.setState({ currentIndex: this.state.currentIndex + 1 })

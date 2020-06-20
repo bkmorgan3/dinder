@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import Business from './Business';
 
 const BusinessList = props => {
-  const { businessList } = props;
-  console.log("bizl", businessList)
+  const { businessList, oneBusiness, addFav } = props;
+  console.log("bizl", oneBusiness, addFav)
   return (
     <div>
       {
-        businessList.map(biz => (
-          < Business
-            id={biz.id}
-            key={biz.id}
-            name={biz.name}
-            address={biz.address}
-            imageURL={biz.imageURL}
-            yelpURL={biz.yelpURL}
-          />
-        )
 
-        )
+        < Business
+          id={oneBusiness.id}
+          key={oneBusiness.id}
+          name={oneBusiness.name}
+          address={oneBusiness.address}
+          imageURL={oneBusiness.imageURL}
+          yelpURL={oneBusiness.yelpURL}
+          addFav={addFav}
+        />
+
+
+
       }
     </div>
   );

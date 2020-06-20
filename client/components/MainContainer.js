@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BusinessList from './BusinessList';
 import axios from 'axios';
 import key from '../../config/keys';
 
@@ -11,11 +12,13 @@ class MainContainer extends Component {
       rating: 0,
       price: '',
       businessList: [],
-      locationSearched: 'LA'
+      locationSearched: 'LA',
+      isLoading: true,
+      error: ''
     }
 
     // bind functions
-    this.showMoreDetail = this.showMoreDetail.bind(this);
+    // this.showMoreDetail = this.showMoreDetail.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +33,6 @@ class MainContainer extends Component {
     })
       .then((res) => {
 
-        console.log("came back", res.data.businesses);
 
         let businessArr = [];
 
@@ -48,12 +50,16 @@ class MainContainer extends Component {
 
         this.setState({
           businessList: businessArr,
+          isLoading: false
         });
 
-        console.log("list", this.state.businessList);
+
 
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err)
+        this.setState({ error: err })
+      });
 
   }
 
@@ -102,15 +108,14 @@ class MainContainer extends Component {
   }
 
   // reset the state when next or addFav is clicked
-  resetState() {
-    this.setState(this.initialState);
-  }
+  // resetState() {
+  //   this.setState(this.initialState);
+  // }
 
   render() {
-    console.log("PASSED", this.props)
-    console.log("state in MC", this.state)
+
     // destructuring props
-    const { currentBusiness } = this.state;
+    const { businessList, isLoading } = this.state;
     const { addFav, moveNext } = this.props;
 
     // when the image is clicked show details
@@ -162,38 +167,62 @@ class MainContainer extends Component {
     //   );
     // }
 
+    // if (this.state.businessList.length > 0) {
+    //   return (
+    //     <main>
+    //       <div className='modal details'>
+    //         <div>
+    //           <img src={this.state.photos[0]} />
+    //           <img src={this.state.photos[1]} />
+    //           <img src={this.state.photos[2]} />
+    //         </div>
+    //         <div className='details-content'>
+    //           <h3>{businessList.name}</h3>
+    //           <p>Address: {businessList.address}</p>
+    //           <p>Rating: {this.state.rating}</p>
+    //           <p>{this.state.review_count} reviews</p>
+    //           <p>Price: {this.state.price}</p>
+    //         </div>
+    //         <div className='button-group'>
+    //           <button
+    //             className='fav'
+    //             onClick={() => {
+    //               // addFav(y
+    //             }}
+    //           >
+    //             <i className='fa fa-heart'></i>
+    //           </button>
+    //           <button
+    //             className='next'
+    //             onClick={() => {
+    //               moveNext();
+    //               this.resetState();
+    //             }}
+    //           >
+    //             <i className='fa fa-times'></i>
+    //           </button>
+    //           <a
+    //             className='yelp'
+    //             href={businessList.yelpurl}
+    //             target='_blank'
+    //           >
+    //             <i className='fa fa-info'></i>
+    //           </a>
+    //         </div>
+    //       </div>
+    //     </main>
+    //   );
+    // }
+
     // when image is not clicked, only show the main image and two buttons
-    return (
-      <main>
-        {/* <div className='modal'>
-          <img
-            className='img-main'
-            src={currentBusiness.imageURL}
-            onClick={() => this.showMoreDetail()}
-          />
-          <div className='button-group'>
-            <button
-              className='fav'
-              onClick={() => {
-                addFav();
-              }}
-            >
-              <i className='fa fa-heart'></i>
-            </button>
-            <button
-              className='next'
-              onClick={() => {
-                moveNext();
-              }}
-            >
-              <i className='fa fa-times'></i>
-            </button>
-          </div>
-        </div> */}
-        MAIN COMP
-      </main>
-    );
+    if (isLoading) {
+      return <div>Loading</div>
+    } else {
+
+      return <BusinessList showMoreDetail={this.showMoreDetail} businessList={businessList} />
+    }
   }
 }
+
 
 export default MainContainer;

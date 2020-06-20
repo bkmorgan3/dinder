@@ -47,7 +47,6 @@ router.post("/signup", isValidInfo, async (req, res) => {
 router.post("/login", isValidInfo, async (req, res) => {
   // destructure body
   const { username, password } = req.body;
-  console.log("email,", password, username)
   try {
     // Check if user doesnt exits in db
     const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);

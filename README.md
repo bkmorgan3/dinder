@@ -1,34 +1,32 @@
 # dinder
 
 
-<div className="form-container">
-          <form>
-            <h2>A Form</h2>
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-            />
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              id="password"
-            />
-            {signUp && (
-              <div>
-                <label htmlFor="email"></label>
-                <input
-                  type="text"
-                  id="email"
-                  value={email}
-                  name="email"
-                />
-              </div>
-            )}
-          </form>
 
-        </div>
+
+        <main>
+          <div className='modal'>
+            <img
+              className='img-main'
+              src={businessList.imageURL}
+              onClick={this.showMoreDetail}
+            />
+            <div className='button-group'>
+              <button
+                className='fav'
+                onClick={() => {
+                  addFav();
+                }}
+              >
+                <i className='fa fa-heart'></i>
+              </button>
+              <button
+                className='next'
+                onClick={() => {
+                  moveNext();
+                }}
+              >
+                <i className='fa fa-times'></i>
+              </button>
+            </div>
+          </div>
+        </main>

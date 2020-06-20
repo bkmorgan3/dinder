@@ -11,23 +11,20 @@ class Signup extends React.Component {
       email: ''
     }
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange(e) {
+    console.log("e", e.target.name, e.target.value)
     const name = e.target.name;
-    const value = e.target.name.value;
+    const value = e.target.value;
     this.setState({
       [name]: value
     })
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log("submitted", this.state)
-  }
 
   render() {
     const { username, password, email } = this.state;
+    const { submit } = this.props;
     return (
       <div className='modal' id='login' >
         <div className='login-header'>
@@ -36,7 +33,7 @@ class Signup extends React.Component {
           </div>
           <h1>Dinder Login</h1>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={submit} >
           <div>
             <label htmlFor='username'>Username:</label>
             <input type='text' name='username' id='username' value={username} onChange={this.handleChange} />

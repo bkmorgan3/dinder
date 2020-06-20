@@ -36,7 +36,7 @@ router.post("/signup", isValidInfo, async (req, res) => {
     }, process.env.SECRET
     );
     return res.status(200).json({
-      token
+      token, username
     })
   } catch (err) {
     console.error(err)

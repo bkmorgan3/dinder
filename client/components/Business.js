@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const Business = props => {
   console.log("props", props)
-  const { addFav } = props;
+  const { addFav, moveNext } = props;
 
   return (
     <div>

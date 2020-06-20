@@ -299,8 +299,8 @@ class App extends Component {
     };
 
     this.showFavs = this.showFavs.bind(this);
-    this.moveNext = this.moveNext.bind(this);
-    this.verify = this.verify.bind(this)
+    this.verify = this.verify.bind(this);
+    this.submit = this.submit.bind(this);
   }
   verify(e) {
     console.log("verifiying")
@@ -311,7 +311,6 @@ class App extends Component {
     axios
       .post('/api/auth/login', { username, password })
       .then(res => {
-        console.log("response is", res.data)
         if (res.data.token) {
           localStorage.setItem("token", res.data.token)
           this.setState({ verified: true, currentUser: res.data.username })
@@ -322,21 +321,26 @@ class App extends Component {
   // SIGN UP ROUTE NEEDED!!!!!
 
   submit(e) {
+    console.log("singuped")
     e.preventDefault();
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+    const email = e.target.email.value;
+
+    axios.post("/api/auth/signup", { username, password, email })
+      .then(res => {
+        console.log(res.data)
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token)
+          this.setState({ verified: true, currentUser: res.data.username })
+        }
+      })
+
   }
 
   showFavs() {
     console.log('showFavs is clicked');
   }
-
-
-
-  moveNext() {
-    this.setState({ currentIndex: this.state.currentIndex + 1 })
-    console.log('moveNext is clicked');
-  }
-
-
 
   render() {
     const { verified } = this.state
@@ -373,7 +377,7 @@ class App extends Component {
               path="/signup"
               render={props =>
                 !verified ? (
-                  <Signup {...props} />
+                  <Signup {...props} submit={this.submit} />
                 ) : (<Redirect to="/homepage" />
                   )
               }

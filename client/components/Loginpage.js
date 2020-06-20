@@ -20,7 +20,6 @@ class Login extends React.Component {
     })
   }
   render() {
-    console.log("Login state", this.state)
     const { username, password } = this.state;
     const { verification } = this.props;
 

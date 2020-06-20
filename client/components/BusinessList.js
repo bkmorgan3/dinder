@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Business from './Business';
 
 const BusinessList = props => {
-  const { businessList, oneBusiness, addFav } = props;
-  console.log("bizl", oneBusiness, addFav)
+  const { businessList, oneBusiness, addFav, moveNext } = props;
+  console.log("bizl", oneBusiness, addFav, moveNext)
   return (
     <div>
       {
@@ -16,6 +16,7 @@ const BusinessList = props => {
           imageURL={oneBusiness.imageURL}
           yelpURL={oneBusiness.yelpURL}
           addFav={addFav}
+          moveNext={moveNext}
         />
 
 

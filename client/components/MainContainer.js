@@ -22,6 +22,7 @@ class MainContainer extends Component {
     // bind functions
     this.showMoreDetail = this.showMoreDetail.bind(this);
     this.addFav = this.addFav.bind(this);
+    this.moveNext = this.moveNext.bind(this);
   }
 
   componentDidMount() {
@@ -83,6 +84,11 @@ class MainContainer extends Component {
         console.log("FAV RES", res);
       })
       .catch(err => console.error(err));
+  }
+
+  moveNext() {
+    this.setState({ currentIndex: this.state.currentIndex + 1 })
+    console.log('moveNext is clicked');
   }
 
   // initializing the initial state
@@ -239,12 +245,12 @@ class MainContainer extends Component {
     if (isLoading) {
       return <div>Loading</div>
     } else {
-
       return (<BusinessList
         showMoreDetail={this.showMoreDetail}
         oneBusiness={businessList[currentIndex]}
         businessList={businessList}
         addFav={this.addFav}
+        moveNext={this.moveNext}
       />
       )
     }

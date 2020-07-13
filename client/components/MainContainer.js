@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BusinessList from './BusinessList';
+import Navbar from './Navbar'
 import axios from 'axios';
 import key from '../../config/keys';
 
@@ -17,16 +18,24 @@ class MainContainer extends Component {
       error: '',
       currentIndex: 0,
       favs: [],
+      offsetBy: 20
     }
 
     // bind functions
     this.showMoreDetail = this.showMoreDetail.bind(this);
     this.addFav = this.addFav.bind(this);
     this.moveNext = this.moveNext.bind(this);
+    this.loadBusinesses = this.loadBusinesses.bind(this)
   }
 
   componentDidMount() {
-    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?location=${this.state.locationSearched}`, {
+    this.loadBusinesses(this.state.currentIndex)
+
+  }
+
+  loadBusinesses(index) {
+    console.log("INIDE A MATH", index)
+    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?location=${this.state.locationSearched}&offset=${index}`, {
       headers: {
         Authorization: `Bearer ${key.API_KEY}`
       },
@@ -36,7 +45,6 @@ class MainContainer extends Component {
       }
     })
       .then((res) => {
-
 
         let businessArr = [];
 
@@ -53,54 +61,50 @@ class MainContainer extends Component {
         }
 
         this.setState({
-          businessList: businessArr,
+          businessList: businessArr.concat(businessArr),
           isLoading: false
-        });
-
-
-
+        })
       })
       .catch(err => {
         console.error(err)
         this.setState({ error: err })
       });
-
   }
 
   addFav() {
-    console.log("clicked fav")
     let favs = this.state.favs.slice();
     favs.push(this.state.businessList[this.state.currentIndex])
+    // console.log("favs", favs)
 
     this.setState({
       currentIndex: this.state.currentIndex + 1,
       favs
     })
+    this.checkForFetch()
 
-    console.log('this.state.businessList[this.state.currentIndex]: ', this.state.businessList[this.state.currentIndex]);
+    console.log("STATE IS", this.state.favs)
+    console.log('this.state.businessList[this.state.currentIndex]: ', this.state.businessList[this.state.currentIndex + 1]);
 
-    axios.post('/favorites', this.state.businessList[this.state.currentIndex])
-      .then(res => {
-        console.log("FAV RES", res);
-      })
-      .catch(err => console.error(err));
+    // axios.post('/favorites', this.state.businessList[this.state.currentIndex])
+    //   .then(res => {
+    //     console.log("FAV RES", res);
+    //   })
+    //   .catch(err => console.error(err));
   }
 
   moveNext() {
     this.setState({ currentIndex: this.state.currentIndex + 1 })
-    console.log('moveNext is clicked');
+    this.checkForFetch()
   }
 
-  // initializing the initial state
-  // ALARM HERE...
-  // get initialState() {
-  //   return {
-  //     fetchingDetails: false,
-  //     photos: [],
-  //     rating: 0,
-  //     price: ''
-  //   };
-  // }
+  checkForFetch() {
+    console.log("checking!")
+    if (this.state.currentIndex === this.state.businessList.length - 2) {
+      console.log("baanana")
+      this.loadBusinesses(this.state.currentIndex)
+    }
+  }
+
 
   // function invoked when the main image is clicked
   showMoreDetail() {
@@ -144,116 +148,28 @@ class MainContainer extends Component {
     // destructuring props
     const { businessList, isLoading, currentIndex } = this.state;
     const { addFav, moveNext } = this.props;
+    console.log("INdEX", this.state.currentIndex)
+    console.log("LENGTH", this.state.businessList.length)
 
-    // when the image is clicked show details
-    // if (this.state.fetchingDetails) {
-    //   return (
-    //     <main>
-    //       <div className='modal details'>
-    //         <div>
-    //           <img src={this.state.photos[0]} />
-    //           <img src={this.state.photos[1]} />
-    //           <img src={this.state.photos[2]} />
-    //         </div>
-    //         <div className='details-content'>
-    //           <h3>{currentBusiness.name}</h3>
-    //           <p>Address: {currentBusiness.address}</p>
-    //           <p>Rating: {this.state.rating}</p>
-    //           <p>{this.state.review_count} reviews</p>
-    //           <p>Price: {this.state.price}</p>
-    //         </div>
-    //         <div className='button-group'>
-    //           <button
-    //             className='fav'
-    //             onClick={() => {
-    //               addFav();
-    //               this.resetState();
-    //             }}
-    //           >
-    //             <i className='fa fa-heart'></i>
-    //           </button>
-    //           <button
-    //             className='next'
-    //             onClick={() => {
-    //               moveNext();
-    //               this.resetState();
-    //             }}
-    //           >
-    //             <i className='fa fa-times'></i>
-    //           </button>
-    //           <a
-    //             className='yelp'
-    //             href={currentBusiness.yelpurl}
-    //             target='_blank'
-    //           >
-    //             <i className='fa fa-info'></i>
-    //           </a>
-    //         </div>
-    //       </div>
-    //     </main>
-    //   );
-    // }
-
-    // if (this.state.businessList.length > 0) {
-    //   return (
-    //     <main>
-    //       <div className='modal details'>
-    //         <div>
-    //           <img src={this.state.photos[0]} />
-    //           <img src={this.state.photos[1]} />
-    //           <img src={this.state.photos[2]} />
-    //         </div>
-    //         <div className='details-content'>
-    //           <h3>{businessList.name}</h3>
-    //           <p>Address: {businessList.address}</p>
-    //           <p>Rating: {this.state.rating}</p>
-    //           <p>{this.state.review_count} reviews</p>
-    //           <p>Price: {this.state.price}</p>
-    //         </div>
-    //         <div className='button-group'>
-    //           <button
-    //             className='fav'
-    //             onClick={() => {
-    //               // addFav(y
-    //             }}
-    //           >
-    //             <i className='fa fa-heart'></i>
-    //           </button>
-    //           <button
-    //             className='next'
-    //             onClick={() => {
-    //               moveNext();
-    //               this.resetState();
-    //             }}
-    //           >
-    //             <i className='fa fa-times'></i>
-    //           </button>
-    //           <a
-    //             className='yelp'
-    //             href={businessList.yelpurl}
-    //             target='_blank'
-    //           >
-    //             <i className='fa fa-info'></i>
-    //           </a>
-    //         </div>
-    //       </div>
-    //     </main>
-    //   );
-    // }
+   
 
     // when image is not clicked, only show the main image and two buttons
-    if (isLoading) {
-      return <div>Loading</div>
-    } else {
-      return (<BusinessList
+    return (
+      <div>
+          <Navbar />
+       {isLoading ? 
+    (<div>Loading</div>) :
+    (<BusinessList
         showMoreDetail={this.showMoreDetail}
         oneBusiness={businessList[currentIndex]}
         businessList={businessList}
         addFav={this.addFav}
         moveNext={this.moveNext}
-      />
-      )
+      />)
     }
+      </div>
+    )
+   
   }
 }
 

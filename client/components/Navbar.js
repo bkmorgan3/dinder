@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/logo.png'
+import Logo from '../assets/logo.png';
 
 const Navbar = ({ showFavs }) => (
   // <div className="nav-buttons">
@@ -14,6 +14,7 @@ const Navbar = ({ showFavs }) => (
         {/* <Link to="/" >
           <img src={Logo} alt="Go Home" />
         </Link> */}
+        Nav
       </div>
     </div>
   </nav>

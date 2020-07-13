@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Business from './Business';
 
 const BusinessList = props => {
-  const { businessList, oneBusiness, addFav, moveNext } = props;
-  console.log("bizl", oneBusiness, addFav, moveNext)
+  const { oneBusiness, addFav, moveNext } = props;
   return (
     <div>
       {
-
         < Business
           id={oneBusiness.id}
           key={oneBusiness.id}
@@ -18,13 +16,9 @@ const BusinessList = props => {
           addFav={addFav}
           moveNext={moveNext}
         />
-
-
-
       }
     </div>
   );
-
 }
 
 export default BusinessList;

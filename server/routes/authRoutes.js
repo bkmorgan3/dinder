@@ -14,16 +14,13 @@ router.post("/signup", isValidInfo, async (req, res) => {
   try {
     // Check if user exists
     const user = await pool.query('SELECT email from users WHERE username = $1', [username]);
-    console.log('u', user.rows.length)
     if (user.rows.length > 0) {
       return res.status(401).json("User already exists.")
     }
 
     // bcrypt password
     const salt = await bcrypt.genSalt(10);
-    console.log('s', salt)
     const hashed = await bcrypt.hash(password, salt);
-    console.log('h', hashed)
 
     // enter user into DB
     const newUser = await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING * ', [username, email, hashed]);

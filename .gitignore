@@ -20,3 +20,6 @@ coverage/
 
 #API KEYS and server secret
 .env
+
+#Scratch file
+scratch.js
